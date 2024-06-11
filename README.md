@@ -58,6 +58,19 @@ rsfms test --ckpt_path <path_to_your_checkpoint>.pt \
 
 We have provided scripts in the `scripts` folder to run these commands.
 
+The following foundation models and datasets are currently available:
+
+| Foundation models  | Datasets (classification) | Datasets (segmentation) |
+| ------------------ | ------------------------- | ----------------------- |
+| Clay               | BigEarth                  | Smallholder Cashew Plantations in Benin                 |
+| MMEarth            | Brick Kiln                | Chesapeake Land Cover   |            
+| Prithvi            | EuroSAT                   | Fire Scars              |
+| SatMAE             | ForestNet                 | NEON Tree               |
+| Scale-MAE          | P4VGer                    | New Zealand Cattle      |
+|                    | So2Sat                    | P4VGer                  |
+|                    |                           | South Africa Crop Type  |
+|                    |                           | Sen1Floods11            |
+
 
 ## Acknowledgement
 
