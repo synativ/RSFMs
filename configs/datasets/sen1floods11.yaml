@@ -1,0 +1,61 @@
+# dataset available: https://github.com/cloudtostreet/Sen1Floods11
+# Split files must be converted using `scripts/convert_sen1floods11_splits.py`.
+# The dataset bands need to be configures in accordance with the used backbone. 
+class_path: GenericNonGeoSegmentationDataModule
+init_args:
+  batch_size: 4
+  num_workers: 8
+
+  constant_scale: 0.0001
+  dataset_bands:
+    - RED
+    - GREEN
+    - BLUE
+    - NIR_NARROW
+    - SWIR_1
+    - SWIR_2
+  output_bands:
+    - BLUE
+    - GREEN
+    - RED
+    - NIR_NARROW
+    - SWIR_1
+    - SWIR_2
+  rgb_indices:
+    - 2
+    - 1
+    - 0
+  means:
+    - 0.107582
+    - 0.13471393
+    - 0.12520133
+    - 0.3236181
+    - 0.2341743
+    - 0.15878009
+  stds:
+    - 0.07145836
+    - 0.06783548
+    - 0.07323416
+    - 0.09489725
+    - 0.07938496
+    - 0.07089546
+
+  no_label_replace: -1
+  no_data_replace: 0
+  num_classes: 2
+  
+  train_data_root: <data_path>/sen1floods11_v1.1/data/flood_events/HandLabeled/S2Hand/
+  train_label_data_root: <data_path>/sen1floods11_v1.1/data/flood_events/HandLabeled/LabelHand
+  val_data_root: <data_path>/sen1floods11_v1.1/data/flood_events/HandLabeled/S2Hand/
+  val_label_data_root: <data_path>/sen1floods11_v1.1/data/flood_events/HandLabeled/LabelHand
+  test_data_root: <data_path>/sen1floods11_v1.1/data/flood_events/HandLabeled/S2Hand/
+  test_label_data_root: <data_path>/sen1floods11_v1.1/data/flood_events/HandLabeled/LabelHand
+  # these must be obtained by running scripts/convert_sen1floods11_splits.py on the original split csv files
+  train_split: <data_path>/sen1floods11_v1.1/splits/flood_handlabeled/flood_train_data.txt
+  test_split: <data_path>/sen1floods11_v1.1/splits/flood_handlabeled/flood_test_data.txt
+  val_split: <data_path>/sen1floods11_v1.1/splits/flood_handlabeled/flood_valid_data.txt
+  img_grep: "*_S2Hand.tif"
+  label_grep: "*_LabelHand.tif"
+  
+  
+  

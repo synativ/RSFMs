@@ -1,0 +1,38 @@
+# Most of the parameters are backbone-agnostic, so it might not makes sense to have different files. 
+# However, we would like to provide a quick start way to use various models.
+class_path: rsfms.tasks.SemanticSegmentationTask
+init_args:
+  model_factory: MMEarthModelFactory  
+  model_args:
+    backbone: mmearth
+    in_channels: 12
+    backbone_dims: [96, 192, 384, 768]
+    backbone_depths: [3, 3, 9, 3]
+    backbone_checkpoint_path: <your_checkpoints_folder>/mmearth/checkpoint-199.pth
+    backbone_patch_size: 16
+    backbone_img_size: 112
+    backbone_use_orig_stem: False
+    decoder: FCNDecoder
+    decoder_channels: 256
+    decoder_num_convs: 4
+    num_classes: 2
+    head_dropout: 0.1
+    head_channel_list:
+      - 256
+  loss: ce
+  aux_heads:
+    - name: aux_head
+      decoder: FCNDecoder
+      decoder_args:
+        decoder_channels: 256
+        decoder_in_index: -1
+        decoder_num_convs: 2
+        head_dropout: 0.1
+  aux_loss:
+    aux_head: 1.0
+  ignore_index: -1
+  class_weights:
+    - 0.3
+    - 0.7
+  freeze_backbone: false
+  freeze_decoder: false

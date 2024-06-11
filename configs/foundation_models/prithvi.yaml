@@ -1,0 +1,44 @@
+# Most of the parameters are backbone-agnostic, so it might not makes sense to have different files. 
+# However, we would like to provide a quick start way to use various models.
+class_path: rsfms.tasks.SemanticSegmentationTask
+init_args:
+  model_factory: PrithviModelFactory
+  model_args:
+    backbone: prithvi_vit_100
+    pretrained: true
+    in_channels: 6
+    num_frames: 1
+    bands:
+      - BLUE
+      - GREEN
+      - RED
+      - NIR_NARROW
+      - SWIR_1
+      - SWIR_2
+    decoder: FCNDecoder
+    decoder_channels: 256
+    decoder_num_convs: 4
+    num_classes: 2
+    head_dropout: 0.1
+    head_channel_list:
+      - 256
+  loss: ce
+  aux_heads:
+    - name: aux_head
+      decoder: FCNDecoder
+      decoder_args:
+        decoder_channels: 256
+        decoder_in_index: -1
+        decoder_num_convs: 2
+        head_dropout: 0.1
+        # head_channel_list:
+        #   - 64
+  aux_loss:
+    aux_head: 1.0
+  ignore_index: -1
+  class_weights:
+    - 0.3
+    - 0.7
+  freeze_backbone: false
+  freeze_decoder: false
+  

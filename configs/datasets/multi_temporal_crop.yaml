@@ -1,0 +1,61 @@
+# data available at: https://huggingface.co/ibm-nasa-geospatial/Prithvi-100M-multi-temporal-crop-classification
+class_path: GenericNonGeoSegmentationDataModule
+init_args:
+  batch_size: 8
+  num_workers: 12
+
+  dataset_bands:
+    - BLUE
+    - GREEN
+    - RED
+    - NIR_NARROW
+    - SWIR_1
+    - SWIR_2
+  output_bands:
+    - BLUE
+    - GREEN
+    - RED
+    - NIR_NARROW
+    - SWIR_1
+    - SWIR_2
+  rgb_indices:
+    - 2
+    - 1
+    - 0
+  means:
+    - 494.905781
+    - 815.239594
+    - 924.335066
+    - 2968.881459
+    - 2634.621962
+    - 1739.579917
+  stds:
+    - 284.925432
+    - 357.84876
+    - 575.566823
+    - 896.601013
+    - 951.900334
+    - 921.407808
+
+  num_classes: 13
+  expand_temporal_dimension: True
+  train_transform:
+    - class_path: FlattenTemporalIntoChannels
+    - class_path: albumentations.Flip
+    - class_path: ToTensorV2
+    - class_path: UnflattenTemporalFromChannels
+      init_args:
+        n_timesteps: 3
+  reduce_zero_label: True
+
+  train_data_root: <data_path>/training_chips
+  train_label_data_root: <data_path>/training_chips
+  val_data_root: <data_path>/validation_chips
+  val_label_data_root: <data_path>/validation_chips
+  test_data_root: <data_path>/validation_chips
+  test_label_data_root: <data_path>/validation_chips
+  train_split: <data_path>/training_chips/training_data.txt
+  test_split: <data_path>/validation_chips/validation_data.txt
+  val_split: <data_path>/validation_chips/validation_data.txt
+  img_grep: "*_merged.tif"
+  label_grep: "*.mask.tif"
